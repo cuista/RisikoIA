@@ -1,0 +1,17 @@
+nodo(1..42).
+
+giocatore(1..4).
+
+territorioIN(X,G)|territorioOut(X,G):-nodo(X),giocatore(G).
+				
+				:-territorioIN(X,G1),territorioIN(X,G2),G1!=G2.
+	
+				assegnato(X):-territorioIN(X,_),nodo(X).
+				:-not assegnato(X), nodo(X).
+				%assegno tutti i territori
+
+				%sommaTerritori(C):- #count{X : nodo(X)} = C. %42-territori
+				%numeroGiocatori(N):- #count{G : giocatore(G)} = N. %4-giocatori
+
+				:-giocatore(G),#count{X : territorioIN(X,G)} > 11.
+				%divisione territori (max diff 1 tra i territori dei giocatori)

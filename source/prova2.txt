@@ -1,0 +1,4 @@
+%DA FARE ASSEGNAZIONE PEDINE
+
+a(1).
+a(2).
