@@ -10,87 +10,100 @@ import it.unical.mat.embasp.languages.asp.AnswerSets;
 import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
 import it.unical.mat.embasp.specializations.dlv.desktop.DLVDesktopService;
 
-		public class DLV {
+public class DLV {
 
-			private Handler handler;
+	private Handler handler;
 
-			public DLV() {
+	public Mappa mappa;
 
-				handler = new DesktopHandler(new DLVDesktopService("/home/tyrionlannister/workspaceIA2/intelligenzaProva/dlv.x86-64-linux-elf-static.bin"));
+	public DLV() {
 
-				// STEP INIT TERRITORI
+		initGame();
 
-				// inputProgram.addProgram("a(1). a(2)." + "a(3):-a(1),a(2).");
-				// //programma dlv, se + guess più input
-				InputProgram inputAssegnTerritori = new ASPInputProgram();
-				inputAssegnTerritori.addFilesPath("source/assegnazioneTerritori.txt");
-				// inputProgram.addProgram();//-->OBIETTIVO PROSSIMA VOLTA
+		handler = new DesktopHandler(new DLVDesktopService(
+				"/home/tyrionlannister/workspaceIA2/intelligenzaProva/dlv.x86-64-linux-elf-static.bin"));
+		// STEP INIT TERRITORI
 
-				handler.addProgram(inputAssegnTerritori);
-				String outputAssegnTerritori = startAssegnazioneTerritori();
-				handler.removeProgram(inputAssegnTerritori);
+		// inputProgram.addProgram("a(1). a(2)." + "a(3):-a(1),a(2).");
+		// //programma dlv, se + guess più input
+		InputProgram inputAssegnTerritori = new ASPInputProgram();
+		inputAssegnTerritori.addFilesPath("source/assegnazioneTerritori.txt");
+		// inputProgram.addProgram();//-->OBIETTIVO PROSSIMA VOLTA
 
-				// STEP 2 INIT PEDINE
+		handler.addProgram(inputAssegnTerritori);
+		String outputAssegnTerritori = startAssegnazioneTerritori();
+		handler.removeProgram(inputAssegnTerritori);
 
-				InputProgram inputAssegnPedine = new ASPInputProgram(outputAssegnTerritori);
-				inputAssegnPedine.addFilesPath("source/prova2.txt");
+		// STEP 2 INIT PEDINE
 
-				handler.addProgram(inputAssegnPedine);
-				String outputAssegnPedine = startAssegnazionePedine();
-				// handler.removeProgram(outputAssegnPedine);
+		InputProgram inputAssegnPedine = new ASPInputProgram(outputAssegnTerritori);
+		inputAssegnPedine.addFilesPath("source/prova2.txt");
 
-				// handler.addProgram(new altroInput);
+		handler.addProgram(inputAssegnPedine);
+		String outputAssegnPedine = startAssegnazionePedine();
+		// handler.removeProgram(outputAssegnPedine);
 
-			}
+		// handler.addProgram(new altroInput);
 
-			public String startAssegnazioneTerritori() {
-				handler.addOption(new OptionDescriptor("-filter=territorioIN "));
-				handler.addOption(new OptionDescriptor("-n=1 "));
-				Output output = handler.startSync(); // avvia dlv.mingw.exe e il
-														// risultato lo mette in output
-				AnswerSets answerSets = (AnswerSets) output;
-				AnswerSet a = answerSets.getAnswersets().get(0); // mettere un numero
-																	// random al posto
-																	// dello 0
-				System.out.println(a.toString());
+	}
 
-				String answerTokenizzata = new String();
-				for (int i = 0; i < a.getAnswerSet().size(); i++) {
-					answerTokenizzata += a.getAnswerSet().get(i);
-					answerTokenizzata += ".";
-				}
-				System.out.println("SONO TUTTA TOKENIZZATA=> " + answerTokenizzata);
+	public void initGame() {
+		mappa = new Mappa();
+	}
 
-				return answerTokenizzata;
-			}
+	public String startAssegnazioneTerritori() {
+		handler.addOption(new OptionDescriptor("-filter=territorioIN "));
+		handler.addOption(new OptionDescriptor("-n=1 "));
+		Output output = handler.startSync(); // avvia dlv.mingw.exe e il
+												// risultato lo mette in output
+		AnswerSets answerSets = (AnswerSets) output;
+		AnswerSet a = answerSets.getAnswersets().get(0); // mettere un numero
+															// random al posto
+															// dello 0
+		System.out.println(a.toString());
 
-			public String startAssegnazionePedine() {
-				handler.removeOption(0);//rendere più chiari
-				handler.removeOption(1);
-				handler.addOption(new OptionDescriptor("-filter=a "));
-				handler.addOption(new OptionDescriptor("-n=1 "));
-				Output output = handler.startSync(); // avvia dlv.mingw.exe e il
-														// risultato lo mette in output
-				AnswerSets answerSets = (AnswerSets) output;
-				// AnswerSet a = answerSets.getAnswersets().get(0); // mettere un numero
-				// random al posto
-				// dello 0
-				System.out.println(answerSets.getAnswersets());
-
-				// String answerTokenizzata=new String();
-				// for (int i = 0; i < a.getAnswerSet().size(); i++) {
-				// answerTokenizzata+=a.getAnswerSet().get(i);
-				// answerTokenizzata+=".";
-				// }
-				// System.out.println("SONO TUTTA TOKENIZZATA=> "+answerTokenizzata);
-				//
-				// return answerTokenizzata;
-				return " ";
-			}
-
-			public static void main(String[] args) {
-
-				DLV dlv = new DLV();
-			}
-
+		String fattiAnswerSet = new String();// così saranno letti come fatti
+												// in input
+		for (int i = 0; i < a.getAnswerSet().size(); i++) {
+			fattiAnswerSet += a.getAnswerSet().get(i);
+			fattiAnswerSet += ".";
 		}
+		System.out.println("SONO TUTTA TOKENIZZATA=> " + fattiAnswerSet);
+
+		String answerTokenizzata = fattiAnswerSet;
+		mappa.tokenTerritoriIn(answerTokenizzata);
+		mappa.print();
+
+		return answerTokenizzata;
+	}
+
+	public String startAssegnazionePedine() {
+		handler.removeOption(0);
+		handler.removeOption(1);
+		handler.addOption(new OptionDescriptor("-filter=a "));
+		handler.addOption(new OptionDescriptor("-n=1 "));
+		Output output = handler.startSync(); // avvia dlv.mingw.exe e il
+												// risultato lo mette in output
+		AnswerSets answerSets = (AnswerSets) output;
+		// AnswerSet a = answerSets.getAnswersets().get(0); // mettere un numero
+		// random al posto
+		// dello 0
+		System.out.println(answerSets.getAnswersets());
+
+		// String answerTokenizzata=new String();
+		// for (int i = 0; i < a.getAnswerSet().size(); i++) {
+		// answerTokenizzata+=a.getAnswerSet().get(i);
+		// answerTokenizzata+=".";
+		// }
+		// System.out.println("SONO TUTTA TOKENIZZATA=> "+answerTokenizzata);
+		//
+		// return answerTokenizzata;
+		return " ";
+	}
+
+	public static void main(String[] args) {
+
+		DLV dlv = new DLV();
+	}
+
+}
