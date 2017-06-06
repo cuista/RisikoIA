@@ -23,8 +23,7 @@ public class GameDLV {
 	}
 
 	public void init() {
-		handler = new DesktopHandler(
-				new DLVDesktopService("/home/tyrionlannister/workspaceIA2/RisikoIA/dlv.x86-64-linux-elf-static.bin"));
+		handler = new DesktopHandler(new DLVDesktopService("source/dlv.x86-64-linux-elf-static.bin"));
 		mappa = new Mappa();
 	}
 

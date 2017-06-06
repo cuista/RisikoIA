@@ -6,8 +6,8 @@ import javax.swing.JFrame;
 
 public class FinestraRisiko extends JFrame {
 
-	static int WIDTH = 800;
-	static int HEIGHT = 600;
+	static int WIDTH = 1280;
+	static int HEIGHT = 720;
 
 	public FinestraRisiko() {
 
