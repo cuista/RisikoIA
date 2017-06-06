@@ -1,8 +1,8 @@
 package progettoCore;
 
-public class Main {
+public class MainTerminale {
 	public static void main(String[] args) {
 
-		DLV dlv = new DLV();
+		GameDLV dlv = new GameDLV();
 	}
 }

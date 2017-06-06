@@ -2,12 +2,15 @@ package progettoCore;
 
 public class Mappa {
 	private TerritorioIN[] territori;
+	private PedineAssegnate[] pedine;
 	private static final int NUM_TERRITORI = 43;
 
 	public Mappa() {
 		territori = new TerritorioIN[NUM_TERRITORI];
+		pedine = new PedineAssegnate[NUM_TERRITORI];
 		for (int i = 0; i < NUM_TERRITORI; i++) {
 			territori[i] = new TerritorioIN(NomiTerritori.getNome(i), null, 0);
+			pedine[i] = new PedineAssegnate(NomiTerritori.getNome(i), 0);
 		}
 	}
 
@@ -21,6 +24,16 @@ public class Mappa {
 		}
 	}
 
+	public void tokenPedineAssegnate(String stringDaParserizzare) {
+		// splitta anche l'insieme vuoto tra ')' e '.' =>per questo i+=2
+		String[] pedineAssegnate = stringDaParserizzare.split("[).]");
+		for (int i = 0; i < pedineAssegnate.length; i += 2) {
+			String token = pedineAssegnate[i];
+			String[] values = token.split("[(]")[1].split("[,]");
+			pedine[Integer.parseInt(values[0])].setNumPedine(Integer.parseInt(values[1]));
+		}
+	}
+
 	public void tokenPedine(String stringDaParserizzare) {
 
 	}
@@ -28,7 +41,9 @@ public class Mappa {
 	public void print() {
 		for (int i = 1; i < territori.length; i++) {
 			TerritorioIN territorioIN = territori[i];
-			System.out.println(territorioIN.getNodo() + "," + territorioIN.getGiocatore());
+			PedineAssegnate pedineAssegnate = pedine[i];
+			System.out.println(
+					territorioIN.getNodo() + "," + territorioIN.getGiocatore() + " pedine:" + pedine[i].getNumPedine());
 		}
 	}
 }
