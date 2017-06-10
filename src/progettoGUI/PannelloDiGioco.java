@@ -221,10 +221,11 @@ public class PannelloDiGioco extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setFont(new Font(Font.DIALOG_INPUT, Font.HANGING_BASELINE, 15));
-		g.setColor(Color.WHITE);
 		g.drawImage(ImageProvider.getMappa().getScaledInstance(FinestraRisiko.WIDTH, FinestraRisiko.HEIGHT,
 				Image.SCALE_SMOOTH), 0, 0, null);
+		g.setColor(Color.WHITE);
+		g.drawString("TESSERINO-ESENTE: Carlo C.O. & Giacomo A.", 10, 20);
+		g.setFont(new Font(Font.DIALOG_INPUT, Font.HANGING_BASELINE, 15));
 		for (int i = 1; i <= 42; i++) {
 			int x = getCoordinateCarro(i).getX();
 			int y = getCoordinateCarro(i).getY();

@@ -19,7 +19,7 @@ public class ImageProvider {
 
 	static {
 		try {
-			mappa = ImageIO.read(Thread.currentThread().getContextClassLoader().getResource("img/risiko.jpg"));
+			mappa = ImageIO.read(Thread.currentThread().getContextClassLoader().getResource("img/risikoVuota.jpg"));
 
 			carroRosso = ImageIO.read(Thread.currentThread().getContextClassLoader().getResource("img/redTank.png"));
 			carroNero = ImageIO.read(Thread.currentThread().getContextClassLoader().getResource("img/blackTank.png"));
