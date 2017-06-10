@@ -7,21 +7,44 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import progettoCore.GameDLV;
 import utils.Coordinate;
 
 public class PannelloDiGioco extends JPanel {
-	private JFrame frame;
 	public int territorioSelezionato = 0;
 
-	public PannelloDiGioco(JFrame frame) {
+	private GameDLV gameDLV = new GameDLV();
+
+	public class ThreadRepaint extends Thread {
+		boolean running = true;
+
+		@Override
+		public void run() {
+
+			while (running) {
+
+				repaint();
+				try {
+					sleep(60);
+				} catch (InterruptedException e) {
+					System.err.println("CRASH REPAINT");
+				}
+			}
+
+		}
+
+	}
+
+	public void startGame() {
+		ThreadRepaint threadRepaint = new ThreadRepaint();
+		threadRepaint.start();
+	}
+
+	public PannelloDiGioco() {
 
 		super();
-		this.frame = frame;
-		init();
 		setBackground(Color.WHITE);
 		setVisible(true);
 		this.addMouseListener(new MouseAdapter() {
@@ -117,10 +140,6 @@ public class PannelloDiGioco extends JPanel {
 
 			}
 		});
-	}
-
-	private void init() {
-		GameDLV gameManager = new GameDLV();
 	}
 
 	private void selezioneTerritorio(int n) {
@@ -226,18 +245,29 @@ public class PannelloDiGioco extends JPanel {
 		g.setColor(Color.WHITE);
 		g.drawString("TESSERINO-ESENTE: Carlo C.O. & Giacomo A.", 10, 20);
 		g.setFont(new Font(Font.DIALOG_INPUT, Font.HANGING_BASELINE, 15));
+
 		for (int i = 1; i <= 42; i++) {
 			int x = getCoordinateCarro(i).getX();
 			int y = getCoordinateCarro(i).getY();
-			if (i < 10)
-				g.drawImage(ImageProvider.getCarroBlu().getScaledInstance(50, 25, Image.SCALE_SMOOTH), x, y, null);
-			else if (i >= 10 && i < 20)
+			// COLORI CARRI ARMATI GIOCATORI
+			switch (gameDLV.getMappa().getGiocatore(i)) {
+			case 1:
 				g.drawImage(ImageProvider.getCarroNero().getScaledInstance(50, 25, Image.SCALE_SMOOTH), x, y, null);
-			else if (i >= 20 && i < 30)
+				break;
+			case 2:
+				g.drawImage(ImageProvider.getCarroBlu().getScaledInstance(50, 25, Image.SCALE_SMOOTH), x, y, null);
+				break;
+			case 3:
 				g.drawImage(ImageProvider.getCarroRosso().getScaledInstance(50, 25, Image.SCALE_SMOOTH), x, y, null);
-			else
+				break;
+			case 4:
 				g.drawImage(ImageProvider.getCarroVerde().getScaledInstance(50, 25, Image.SCALE_SMOOTH), x, y, null);
-			g.drawString("46", x + 32, y + 20);
-		}
+				break;
+			default:
+			}
+			// NUMERO DI CARRI ARMATI
+			g.drawString(String.valueOf(gameDLV.getMappa().getPedine(i)), x + 32, y + 20);
+		} // END FOR
+
 	}
 }

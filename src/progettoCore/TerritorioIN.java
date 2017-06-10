@@ -10,31 +10,31 @@ import it.unical.mat.embasp.languages.Param;
 @Id("TerritorioIN")
 public class TerritorioIN {
 	@Param(0)
-	private String nodo;
+	private String territorio;
 	@Param(1)
-	private String giocatore;
+	private int giocatore;
 	@Param(2)
 	private int pedine;
 
-	public TerritorioIN(String n, String g, int p) {
-		nodo = n;
+	public TerritorioIN(String n, int g, int p) {
+		territorio = n;
 		giocatore = g;
 		pedine = p;
 	}
 
 	public String getNodo() {
-		return nodo;
+		return territorio;
 	}
 
 	public void setNodo(String nodo) {
-		this.nodo = nodo;
+		this.territorio = nodo;
 	}
 
-	public String getGiocatore() {
+	public int getGiocatore() {
 		return giocatore;
 	}
 
-	public void setGiocatore(String giocatore) {
+	public void setGiocatore(int giocatore) {
 		this.giocatore = giocatore;
 	}
 

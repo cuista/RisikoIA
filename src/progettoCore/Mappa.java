@@ -9,7 +9,7 @@ public class Mappa {
 		territori = new TerritorioIN[NUM_TERRITORI];
 		pedine = new PedineAssegnate[NUM_TERRITORI];
 		for (int i = 0; i < NUM_TERRITORI; i++) {
-			territori[i] = new TerritorioIN(NomiTerritori.getNome(i), null, 0);
+			territori[i] = new TerritorioIN(NomiTerritori.getNome(i), 0, 0);
 			pedine[i] = new PedineAssegnate(NomiTerritori.getNome(i), 0);
 		}
 	}
@@ -20,7 +20,7 @@ public class Mappa {
 		for (int i = 0; i < territoriIN.length; i += 2) {
 			String token = territoriIN[i];
 			String[] values = token.split("[(]")[1].split("[,]");
-			territori[Integer.parseInt(values[0])].setGiocatore(values[1]);
+			territori[Integer.parseInt(values[0])].setGiocatore(Integer.parseInt(values[1]));
 		}
 	}
 
@@ -41,9 +41,17 @@ public class Mappa {
 	public void print() {
 		for (int i = 1; i < territori.length; i++) {
 			TerritorioIN territorioIN = territori[i];
-			PedineAssegnate pedineAssegnate = pedine[i];
 			System.out.println(
 					territorioIN.getNodo() + "," + territorioIN.getGiocatore() + " pedine:" + pedine[i].getNumPedine());
 		}
 	}
+
+	public int getGiocatore(int numeroTerr) {
+		return territori[numeroTerr].getGiocatore();
+	}
+
+	public int getPedine(int numeroTerr) {
+		return pedine[numeroTerr].getNumPedine();
+	}
+
 }

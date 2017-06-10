@@ -9,10 +9,11 @@ public class FinestraRisiko extends JFrame {
 	static int WIDTH = 1280;
 	static int HEIGHT = 720;
 
+	final PannelloDiGioco gamePanel = new PannelloDiGioco();
+
 	public FinestraRisiko() {
 
-		final PannelloDiGioco p = new PannelloDiGioco(this);
-		getContentPane().add(p);
+		getContentPane().add(gamePanel);
 		setVisible(true);
 		setTitle("RisikoIA");
 		setMinimumSize(new Dimension(WIDTH, HEIGHT));
@@ -21,8 +22,12 @@ public class FinestraRisiko extends JFrame {
 
 	}
 
+	public void showGame() {
+		gamePanel.startGame();
+	}
+
 	public static void main(String[] args) {
 		final FinestraRisiko mf = new FinestraRisiko();
-
+		mf.showGame();
 	}
 }

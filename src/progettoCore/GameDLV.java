@@ -16,6 +16,10 @@ public class GameDLV {
 
 	public Mappa mappa;
 
+	public Mappa getMappa() {
+		return mappa;
+	}
+
 	public GameDLV() {
 
 		init();
