@@ -1,0 +1,28 @@
+
+intero(1..30000).
+
+sposta(T1,T2,P1)|nonSposta(T1,T2,P1):-adiacenti(T1,T2),pedineAssegnate(T1,P2),territorioIN(T1,G),territorioIN(T2,G),giocatoreCorrente(G),intero(P1),P1<P2.
+
+%DA FARE IN JAVA! size degli answerset può essere 0 perchè non abbiamo territori adiacenti
+
+				%non vogliamo che ci siano più spostamenti nello stesso territorio
+				:-sposta(T1,T2,P1),sposta(T1,T2,P2),P1!=P2.
+
+				%deve esserci un solo spostamento
+				:- not #count{T1,T2:sposta(T1,T2,_)}=1.
+
+				%non fare spostamenti nei territori sicuri
+				territorioSicuro(T1):-territorioIN(T1,_),not #count{T2:territorioIN(T1,G1),adiacenti(T1,T2),territorioIN(T2,G2),G1!=G2,T1!=T2}>0.
+				:-sposta(_,T2,_),territorioSicuro(T2).
+
+				%si preferisce aggiungere pedine nel territorio più debole, priorità assoluta
+				:~sposta(_,T2,_), pedineAssegnate(T2,P),Diff=30000-P. [Diff:2]
+
+				%in caso posso difendere un territorio debole spostando da territorio sicuro, sposterò tutte le pedine del terrSicuro
+				:-sposta(T1,_,P1),territorioSicuro(T1),intero(P1),pedineAssegnate(T1,P2),P1<P,P=P2-1.				
+				:~sposta(T1,_,_),not territorioSicuro(T1). [1:1]
+		
+
+
+				:~sposta(T1,T2,PS),pedineAssegnate(T1,P1),pedineAssegnate(T2,P2),intero(PS),
+							X=P1-PS,Y=P2+PS,Costo=X-Y. [Costo:3]

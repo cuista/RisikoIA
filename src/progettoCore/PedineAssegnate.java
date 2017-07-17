@@ -2,31 +2,47 @@ package progettoCore;
 
 import it.unical.mat.embasp.languages.Param;
 
-public class PedineAssegnate {
+public class PedineAssegnate
+{
 	@Param(0)
 	private String territorio;
 	@Param(1)
 	private int numPedine;
 
-	public PedineAssegnate(String t, int p) {
+	public PedineAssegnate(String t, int p)
+	{
 		territorio = t;
 		numPedine = p;
 	}
 
-	public String getTerritorio() {
+	public String getTerritorio()
+	{
 		return territorio;
 	}
 
-	public void setTerritorio(String territorio) {
+	public void setTerritorio(String territorio)
+	{
 		this.territorio = territorio;
 	}
 
-	public int getNumPedine() {
+	public int getNumPedine()
+	{
 		return numPedine;
 	}
 
-	public void setNumPedine(int numPedine) {
+	public void setNumPedine(int numPedine)
+	{
 		this.numPedine = numPedine;
+	}
+
+	public void aggiungiPedine(int numPedine)
+	{
+		this.numPedine += numPedine;
+	}
+
+	public void eliminaPedine(int i)
+	{
+		this.numPedine = numPedine - i;
 	}
 
 }

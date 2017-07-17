@@ -1,8 +1,28 @@
 package progettoCore;
 
-public enum NomiTerritori {
+public enum NomiTerritori
+{
 	NON_VALIDO, ALASKA, TERRITORI_DEL_NORD_OVEST, GROENLANDIA, ALBERTA, ONTARIO, QUEBEC, STATI_UNITI_OCCIDENTALI, STATI_UNITI_ORIENTALI, AMERICA_CENTRALE, VENEZUELA, BRASILE, PERU, ARGENTINA, ISLANDA, GRAN_BRETAGNA, SCANDINAVIA, EUROPA_OCCIDENTALE, EUROPA_SETTENTRIONALE, UCRAINA, EUROPA_MERIDIONALE, AFRICA_DEL_NORD, EGITTO, CONGO, AFRICA_ORIENTALE, AFRICA_DEL_SUD, MADACASCAR, URALI, SIBERIA, JACUZIA, KAMCHATKA, CITA, GIAPPONE, AFGHANISTAN, MONGOLIA, CINA, MEDIO_ORIENTE, INDIA, SIAM, INDONESIA, NUOVA_GUINEA, AUSTRALIA_OCCIDENTALE, AUSTRIALIA_ORIENTALE;
-	public static String getNome(int i) {
+	public static String getNome(int i)
+	{
 		return NomiTerritori.values()[i].toString();
+	}
+
+	public static int getNum(String s)
+	{
+		try
+		{
+			for (int i = 1; i < Mappa.getNumTerritori(); i++)
+			{
+				if (s.equals(NomiTerritori.getNome(i)))
+				{
+					return i;
+				}
+			}
+		} catch (Exception e)
+		{
+			System.err.println("CONVERSIONE STRINGA TERR-> INT FALLITA");
+		}
+		return 0;
 	}
 }

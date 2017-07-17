@@ -1,0 +1,20 @@
+attacca(T1,T2)|nonAttacca(T1,T2):-territorioIN(T1,G1),territorioIN(T2,G2),adiacenti(T1,T2),giocatoreCorrente(G1),G1!=G2.
+
+
+		%attacca uno e soltanto uno territorio
+		:-not #count{T2,T1:attacca(T1,T2)}=1.
+
+		%il territorio da dove attacco deve avere almeno 2 pedine 
+		:-attacca(T,_),pedineAssegnate(T,P),P < 2.
+
+		%attacca il territorio con meno pedine
+		:~attacca(_,T2),pedineAssegnate(T2,P2). [P2:2]
+		
+		%attacca il territorio
+		:~ attacca(T1,_), pedineAssegnate(T1,P1),Diff=30000-P1. [Diff:1]
+		
+		%il giocCorrente attacca solo se ha un numero maggioreUguale di pedine rispetto al difensore
+		:-attacca(T1,T2),pedineAssegnate(T1,P1),pedineAssegnate(T2,P2),P2>P1.
+		
+		
+		

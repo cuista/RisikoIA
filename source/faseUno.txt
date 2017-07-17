@@ -1,0 +1,31 @@
+intero(1..30000).
+
+pedine(N):-pedineDaAggiungere(X),intero(N),N<=X,N>0.
+
+%-------------AGGIUNGERE QUI TERRITORI/O CHE SI VUOLE ATTACCARE E DARLI DA OUTPUT---------------
+
+nuovePedineTerritorio(T,P)|noNuovePedineTerritorio(T,P):-territorioIN(T,G),pedine(P),giocatoreCorrente(G).
+
+				%non vogliamo territori uguali con pedine diverse
+				:-nuovePedineTerritorio(T,P1),nuovePedineTerritorio(T,P2),P1!=P2.
+
+				%deve esserci almeno un territorio con le pedine assegnate (almeno un nuovePedineTerritorio)
+				:- #count{T:nuovePedineTerritorio(T,_)}<1.
+
+				%la somma delle pedine inserite deve essere N pedine da aggiungere
+				:-not #sum{X,T: nuovePedineTerritorio(T,X)}=N,pedineDaAggiungere(N).
+
+				%se tutti gli adiacenti sono dello stesso giocatore lasciare solo una pedina
+				territorioSicuro(T1):-territorioIN(T1,_),not #count{T2:territorioIN(T1,G1),adiacenti(T1,T2),territorioIN(T2,G2),G1!=G2,T1!=T2}>0.
+				
+				%non vogliamo mettere pedine nei territori sicuri
+				:-nuovePedineTerritorio(T,_),territorioSicuro(T).
+
+				%distribuiamo le pedine (cambiare livello per superare questo weak)
+				:~nuovePedineTerritorio(_,P),MenoPedine=P*P. [MenoPedine:2]
+
+				%preferiamo i territori con meno pedine(perchè P1*P1 costerà meno)
+				:~nuovePedineTerritorio(T,_),pedineAssegnate(T,P1),MenoPedine=P1*P1. [MenoPedine:1]
+		
+	
+

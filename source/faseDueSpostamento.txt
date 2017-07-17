@@ -1,0 +1,21 @@
+
+intero(1..30000).
+
+pedineDaSpostare(P)|pedineDaNonSpostare(P):-pedineAssegnate(A,P1),pedineAssegnate(D,P2),territorioAttaccante(A),territorioDifensore(D),intero(P),P<P1.
+
+	
+				%non vogliamo che ci siano più spostamenti 
+				:-pedineDaSpostare(P1),pedineDaSpostare(P2),P1!=P2.
+
+				%deve esserci un solo spostamento
+				:- not #count{P:pedineDaSpostare(P)}=1.			
+	
+				%se tutti gli adiacenti sono dello stesso giocatore lasciare solo una pedina
+				territorioSicuro(T1):-territorioIN(T1,_),not #count{T2:territorioIN(T1,G1),adiacenti(T1,T2),territorioIN(T2,G2),G1!=G2,T1!=T2}>0.
+
+
+				%se il territorio è sicuro deve dargli tutte le pedine tranne 1
+				:-pedineDaSpostare(P),pedineAssegnate(A,P1),territorioSicuro(A),territorioAttaccante(A),K=P1-1,P<K.
+
+				%paghi di meno se il numero di pedine tra i 2 terr è equilibrato (sposti la metà)
+				:~pedineDaSpostare(PS),pedineAssegnate(A,P1),territorioAttaccante(A),intero(PS), K = P1/2,Costo = PS-K. [Costo:1]

@@ -4,30 +4,52 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-public class FinestraRisiko extends JFrame {
+public class FinestraRisiko extends JFrame
+{
 
 	static int WIDTH = 1280;
 	static int HEIGHT = 720;
 
-	final PannelloDiGioco gamePanel = new PannelloDiGioco();
+	final PannelloMenu menuPanel = new PannelloMenu(this);
 
-	public FinestraRisiko() {
+	PannelloDiGioco gamePanel;
 
-		getContentPane().add(gamePanel);
+	public FinestraRisiko()
+	{
+
+		showMenu();
 		setVisible(true);
-		setTitle("RisikoIA");
-		setMinimumSize(new Dimension(WIDTH, HEIGHT));
+		setTitle("Trump Simulator");
+		setMinimumSize(new Dimension(WIDTH + 15, HEIGHT + 20));
+		pack();
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
 
-	public void showGame() {
+	public void showGame()
+	{
+		gamePanel = new PannelloDiGioco(this);
+
+		getContentPane().removeAll();
+		getContentPane().add(gamePanel);
 		gamePanel.startGame();
 	}
 
-	public static void main(String[] args) {
+	public void showMenu()
+	{
+		getContentPane().removeAll();
+		getContentPane().add(menuPanel);
+	}
+
+	public static void main(String[] args)
+	{
 		final FinestraRisiko mf = new FinestraRisiko();
-		mf.showGame();
+	}
+
+	public void close()
+	{
+		System.exit(0);
+
 	}
 }
