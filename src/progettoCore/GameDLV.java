@@ -192,18 +192,55 @@ public class GameDLV {
 		AnswerSet answersetPedine = answerSets.getAnswersets().get(0);
 
 		// cos� saranno letti come fatti in input
-		String stringaInputProssimoDLV = new String();
+		String stringaInputSpostamentoTS = new String();
 
 		for (int i = 0; i < answersetPedine.getAnswerSet().size(); i++) {
-			stringaInputProssimoDLV += answersetPedine.getAnswerSet().get(i) + ".";
+			stringaInputSpostamentoTS += answersetPedine.getAnswerSet().get(i) + ".";
 		}
-		mappa.tokenPedineAssegnate(stringaInputProssimoDLV);
-		// System.out.println("OutPut assegnazione Pedina: " +
-		// stringaInputProssimoDLV);
+		mappa.tokenPedineAssegnate(stringaInputSpostamentoTS);
+		stringaInputSpostamentoTS += getMappa().getInputDlvTerritoriIn();
 
 		// rimuoviamo il vecchio programma dentro l'handler per avviarne un
 		// altro (vedi fase1)
 		handler.removeProgram(inputAssegnPedine);
+		handler.removeOption(0);
+		handler.removeOption(1);
+
+		spostamentoTerritoriSicuri(stringaInputSpostamentoTS);
+
+	}
+
+	private void spostamentoTerritoriSicuri(String stringaInputSpostamentoTS) {
+		handler.addOption(new OptionDescriptor("-filter=spostamentoTS "));
+		handler.addOption(new OptionDescriptor("-n=1 "));
+
+		String territoriTokenizzati = mappa.getInputDlvTerritoriIn();
+
+		InputProgram inputSpostamentoTS = new ASPInputProgram(stringaInputSpostamentoTS);
+		inputSpostamentoTS.addFilesPath("source/adiacenze.txt");
+		inputSpostamentoTS.addFilesPath("source/spostamentoTerritoriSicuri.txt");
+		handler.addProgram(inputSpostamentoTS);
+
+		// avvia dlv.mingw.exe e il risultato lo mette in output
+		Output output = handler.startSync();
+		AnswerSets answerSets = (AnswerSets) output;
+
+		// se non ci sono territori sicuri 0 answerset
+		if (answerSets.getAnswersets().size() != 0) {
+			AnswerSet answersetPedineTS = answerSets.getAnswersets().get(0);
+
+			// cos� saranno letti come fatti in input
+			String spostamentoTSdaTokenizzare = new String();
+
+			for (int i = 0; i < answersetPedineTS.getAnswerSet().size(); i++) {
+				spostamentoTSdaTokenizzare += answersetPedineTS.getAnswerSet().get(i) + ".";
+			}
+
+			mappa.tokenSpostamentoTerritoriSicuri(spostamentoTSdaTokenizzare);
+		}
+
+		// pulisco l'handler
+		handler.removeProgram(inputSpostamentoTS);
 		handler.removeOption(0);
 		handler.removeOption(1);
 

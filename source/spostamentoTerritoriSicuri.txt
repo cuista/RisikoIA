@@ -1,0 +1,19 @@
+numPedine(1..30000).
+
+spostamentoTS(T1,T2,P)|noSpostamentoTS(T1,T2,P):- pedineAssegnate(T1,P1),pedineAssegnate(T2,P2),numPedine(P),territorioSicuro(T1),not territorioSicuro(T2),territorioIN(T1,G),territorioIN(T2,G),T1!=T2,P=P1-1.
+
+				%deve esserci almeno uno spostamentoTS
+				:-#count{T1,T2,P:spostamentoTS(T1,T2,P)}<1.
+
+				%non devono esserci due spostamentiTS con lo stesso territorio
+				:-spostamentoTS(T,_,P1),spostamentoTS(T,_,P2),P1!=P2.			
+
+				%gli spostamentiTS devono essere uguali al numero di territori sicuri
+				numTerritoriSicuri(N):-numPedine(N),#count{T,P:territorioSicuro(T),pedineAssegnate(T,P),P>1}=N.
+				:-numPedine(N1),#count{T1,T2,P:spostamentoTS(T1,T2,P)}=N1,numTerritoriSicuri(N2),N1!=N2.
+
+				%se tutti gli adiacenti sono dello stesso giocatore mettere solo 1 pedina
+				territorioSicuro(T1):-territorioIN(T1,_),not #count{T2:territorioIN(T1,G1),adiacenti(T1,T2),territorioIN(T2,G2),G1!=G2,T1!=T2}>0.
+
+				%preferisco spostare nei territori con meno pedine
+				:~spostamentoTS(_,T2,_),pedineAssegnate(T2,P). [P:1]

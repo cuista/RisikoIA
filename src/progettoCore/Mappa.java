@@ -8,20 +8,18 @@ import it.unical.mat.embasp.languages.asp.ASPInputProgram;
 import it.unical.mat.embasp.languages.asp.AnswerSet;
 import it.unical.mat.embasp.languages.asp.AnswerSets;
 
-public class Mappa
-{
+public class Mappa {
 	private TerritorioIN[] territori;
 
 	private boolean spostandoFase2 = false;
 
-	public static int getNumTerritori()
-	{
+	public static int getNumTerritori() {
 		return NUM_TERRITORI;
 	}
 
 	private PedineAssegnate[] pedine;
 	private Adiacenti adiacenti;
-	// Numero territori correnti per giocatore, si modificherà dopo
+	// Numero territori correnti per giocatore, si modificherï¿½ dopo
 	// l'inizializzazione
 	private int[] territoriTotali = new int[4];
 	private int[] pedineTotali = new int[4];
@@ -30,21 +28,18 @@ public class Mappa
 
 	private static final int NUM_TERRITORI = 43;
 
-	public Mappa()
-	{
+	public Mappa() {
 		territori = new TerritorioIN[NUM_TERRITORI];
 
 		pedine = new PedineAssegnate[NUM_TERRITORI];
-		for (int i = 0; i < pedine.length; i++)
-		{
+		for (int i = 0; i < pedine.length; i++) {
 			pedine[i] = new PedineAssegnate(NomiTerritori.getNome(i), 0);
 		}
 
 		// inizializzazione territoriTotali
 		assegnaTerritori();
 
-		for (int i = 0; i < 4; i++)
-		{
+		for (int i = 0; i < 4; i++) {
 			pedineTotali[i] = 30;
 		}
 
@@ -52,24 +47,33 @@ public class Mappa
 
 	}
 
-	public void tokenPedineAssegnate(String stringDaParserizzare)
-	{
+	public void tokenPedineAssegnate(String stringDaParserizzare) {
 		String[] pedineAssegnate = stringDaParserizzare.split("[).]");
-		// facciamo +=2 perchè splitta l'insieme vuoto tra ) e .
-		for (int i = 0; i < pedineAssegnate.length; i += 2)
-		{
+		// facciamo +=2 perchï¿½ splitta l'insieme vuoto tra ) e .
+		for (int i = 0; i < pedineAssegnate.length; i += 2) {
 			String token = pedineAssegnate[i];
 			String[] values = token.split("[(]")[1].split("[,]");
 			pedine[Integer.parseInt(values[0])].setNumPedine(Integer.parseInt(values[1]));
 		}
 	}
 
-	public void tokenPedineDaAggiungere(String stringDaParserizzare)
-	{
+	public void tokenSpostamentoTerritoriSicuri(String spostamentoTSdaTokenizzare) {
+		String[] spostamentoTS = spostamentoTSdaTokenizzare.split("[).]");
+		// facciamo +=2 perchï¿½ splitta l'insieme vuoto tra ) e .
+		for (int i = 0; i < spostamentoTS.length; i += 2) {
+			String token = spostamentoTS[i];
+			String[] values = token.split("[(]")[1].split("[,]");
+			System.out.println("ASHAHFASH" + values[0] + "   BIROBIRO: " + values[1] + "  MI CONSENTA: " + values[2]);
+			pedine[Integer.parseInt(values[0])].eliminaPedine(Integer.parseInt(values[2]));
+			pedine[Integer.parseInt(values[1])].aggiungiPedine(Integer.parseInt(values[2]));
+		}
+
+	}
+
+	public void tokenPedineDaAggiungere(String stringDaParserizzare) {
 		String[] pedineAssegnate = stringDaParserizzare.split("[).]");
-		// facciamo +=2 perchè splitta l'insieme vuoto tra ) e .
-		for (int i = 0; i < pedineAssegnate.length; i += 2)
-		{
+		// facciamo +=2 perchï¿½ splitta l'insieme vuoto tra ) e .
+		for (int i = 0; i < pedineAssegnate.length; i += 2) {
 			String token = pedineAssegnate[i];
 			String[] values = token.split("[(]")[1].split("[,]");
 
@@ -78,27 +82,20 @@ public class Mappa
 		}
 	}
 
-	private void assegnaTerritori()
-	{
+	private void assegnaTerritori() {
 		int countDieci = 2, countUndici = 2;
-		for (int i = 0; i < 4; i++)
-		{
-			if (countDieci == 0)
-			{
+		for (int i = 0; i < 4; i++) {
+			if (countDieci == 0) {
 				territoriTotali[i] = 11;
 				countUndici--;
-			} else if (countUndici == 0)
-			{
+			} else if (countUndici == 0) {
 				territoriTotali[i] = 10;
 				countDieci--;
-			} else
-			{
+			} else {
 				territoriTotali[i] = (int) ((Math.random() * 2) + 10);
-				if (territoriTotali[i] == 10)
-				{
+				if (territoriTotali[i] == 10) {
 					countDieci--;
-				} else
-				{
+				} else {
 					countUndici--;
 				}
 			}
@@ -107,16 +104,13 @@ public class Mappa
 		// serve per l assegnazione pedine
 		/////////////////////////////////
 		int[] copiarella = new int[4];
-		for (int i = 0; i < 4; i++)
-		{
+		for (int i = 0; i < 4; i++) {
 			copiarella[i] = territoriTotali[i];
 		}
 
-		for (int i = 1; i < NUM_TERRITORI; i++)
-		{
+		for (int i = 1; i < NUM_TERRITORI; i++) {
 			int giocatoreTemporaneo = (int) ((Math.random() * 4));
-			while (copiarella[giocatoreTemporaneo] == 0)
-			{
+			while (copiarella[giocatoreTemporaneo] == 0) {
 				// System.out.println("giocTemp: " + giocatoreTemporaneo);
 				giocatoreTemporaneo = ((int) (Math.random() * 4));
 			}
@@ -126,10 +120,8 @@ public class Mappa
 		/////////////////////////////////
 	}
 
-	public void print()
-	{
-		for (int i = 1; i < territori.length; i++)
-		{
+	public void print() {
+		for (int i = 1; i < territori.length; i++) {
 			TerritorioIN territorioIN = territori[i];
 			// System.out.println(
 			// territorioIN.getNodo() + "," + territorioIN.getGiocatore() + "
@@ -137,41 +129,34 @@ public class Mappa
 		}
 	}
 
-	public String getInputDlvTerritoriIn()
-	{
+	public String getInputDlvTerritoriIn() {
 		String input = new String();
-		for (int i = 1; i < territori.length; i++)
-		{
+		for (int i = 1; i < territori.length; i++) {
 			input += "territorioIN(" + (i) + "," + territori[i].getGiocatore() + ").";
 		}
 		return input;
 	}
 
-	public String getInputDlvPedineAssegnate()
-	{
+	public String getInputDlvPedineAssegnate() {
 		String input = new String();
-		for (int i = 1; i < pedine.length; i++)
-		{
+		for (int i = 1; i < pedine.length; i++) {
 			input += "pedineAssegnate(" + NomiTerritori.getNum(pedine[i].getTerritorio()) + ","
 					+ pedine[i].getNumPedine() + ").";
 		}
 		return input;
 	}
 
-	public boolean eseguiAttacco(int territorioAttaccante, int territorioDifensore)
-	{
+	public boolean eseguiAttacco(int territorioAttaccante, int territorioDifensore) {
 		int dadoAttaccante = (int) (Math.random() * 6) + 1;
 		int dadoDifensore = (int) (Math.random() * 6) + 1;
 
 		System.out.println("Dado Attaccante = " + dadoAttaccante + "        dado Difensore = " + dadoDifensore);
 
 		System.out.println("pedine territorio attaccante preattacco: " + pedine[territorioAttaccante].getNumPedine());
-		if (dadoAttaccante > dadoDifensore)
-		{
+		if (dadoAttaccante > dadoDifensore) {
 			pedineTotali[getGiocatore(territorioDifensore) - 1]--;
 
-			if (pedine[territorioDifensore].getNumPedine() == 1)
-			{
+			if (pedine[territorioDifensore].getNumPedine() == 1) {
 				// cambio territoriTotali
 				territoriTotali[getGiocatore(territorioDifensore) - 1]--;
 				territoriTotali[getGiocatore(territorioAttaccante) - 1]++;
@@ -193,15 +178,13 @@ public class Mappa
 
 				// ferma l'attacco e passa alla fase3
 				return true;
-			} else
-			{
+			} else {
 				// elimino una pedina dal territorio difensore
 				pedine[territorioDifensore].eliminaPedine(1);
 
 			}
 		} // FINE VINCE ATTACCO
-		else
-		{
+		else {
 			pedineTotali[getGiocatore(territorioAttaccante) - 1]--;
 			// elimino una pedina dal territorio attaccante
 			pedine[territorioAttaccante].eliminaPedine(1);
@@ -212,8 +195,7 @@ public class Mappa
 
 	}
 
-	private int fase2Spostamento(int territorioAttaccante, int territorioDifensore)
-	{
+	private int fase2Spostamento(int territorioAttaccante, int territorioDifensore) {
 
 		String inputFase2Spostamento = getInputDlvTerritoriIn() + getInputDlvPedineAssegnate() + "giocatoreCorrent("
 				+ getGiocatore(territorioAttaccante) + ").territorioAttaccante(" + territorioAttaccante
@@ -239,8 +221,7 @@ public class Mappa
 		int pedineDaSpostare = 0;
 		// non abbiamo pedine da poter spostare
 		// ho conquistato con un territorio da 2 pedine
-		if (answerSets.getAnswersets().size() != 0)
-		{
+		if (answerSets.getAnswersets().size() != 0) {
 			AnswerSet answersetFase2Spostamento = answerSets.getAnswersets().get(0);
 
 			String outputFase2Spostamento = answersetFase2Spostamento.getAnswerSet().get(0);
@@ -257,53 +238,43 @@ public class Mappa
 		return pedineDaSpostare;
 	}
 
-	public int getGiocatore(int numeroTerr)
-	{
+	public int getGiocatore(int numeroTerr) {
 		return territori[numeroTerr].getGiocatore();
 	}
 
-	public int getPedine(int numeroTerr)
-	{
+	public int getPedine(int numeroTerr) {
 		return pedine[numeroTerr].getNumPedine();
 	}
 
-	public TerritorioIN[] getTerritori()
-	{
+	public TerritorioIN[] getTerritori() {
 		return territori;
 	}
 
-	public PedineAssegnate[] getPedine()
-	{
+	public PedineAssegnate[] getPedine() {
 		return pedine;
 	}
 
-	public Adiacenti getAdiacenti()
-	{
+	public Adiacenti getAdiacenti() {
 		return adiacenti;
 	}
 
-	public int[] getTerritoriTotali()
-	{
+	public int[] getTerritoriTotali() {
 		return territoriTotali;
 	}
 
-	public int[] getPedineTotali()
-	{
+	public int[] getPedineTotali() {
 		return pedineTotali;
 	}
 
-	public void setSpostandoFase2(boolean spostandoFase2)
-	{
+	public void setSpostandoFase2(boolean spostandoFase2) {
 		this.spostandoFase2 = spostandoFase2;
 	}
 
-	public boolean isSpostandoFase2()
-	{
+	public boolean isSpostandoFase2() {
 		return spostandoFase2;
 	}
 
-	public int getPedineMosseFase2()
-	{
+	public int getPedineMosseFase2() {
 		return pedineMosseFase2;
 	}
 
