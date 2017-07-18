@@ -15,38 +15,30 @@ import progettoCore.GameDLV;
 import progettoCore.NomiGiocatori;
 import utils.Coordinate;
 
-public class PannelloDiGioco extends JPanel
-{
+public class PannelloDiGioco extends JPanel {
 	public int territorioSelezionato = 0;
 
 	private GameDLV gameDLV = new GameDLV();
 
 	private FinestraRisiko switcher;
 
-	public class ThreadRepaint extends Thread
-	{
+	public class ThreadRepaint extends Thread {
 
 		@Override
-		public void run()
-		{
-			try
-			{
+		public void run() {
+			try {
 
-				while (!gameDLV.isGameOver())
-				{
+				while (!gameDLV.isGameOver()) {
 
-					for (int giocatore = 0; giocatore < 4; giocatore++)
-					{
-						if (gameDLV.mappa.getTerritoriTotali()[giocatore] != 0)
-						{
+					for (int giocatore = 0; giocatore < 4; giocatore++) {
+						if (gameDLV.mappa.getTerritoriTotali()[giocatore] != 0) {
 							// fase 1
 							gameDLV.faseUno(giocatore);
 							repaint();
 
 							// fase 2
 							gameDLV.setTerminaTurno(false);
-							while (!gameDLV.isTerminaTurno())
-							{
+							while (!gameDLV.isTerminaTurno()) {
 								gameDLV.faseDue(giocatore);
 								repaint();
 
@@ -67,163 +59,115 @@ public class PannelloDiGioco extends JPanel
 					sleep(60);
 				}
 
-			} catch (InterruptedException e)
-			{
+			} catch (InterruptedException e) {
 				System.err.println("CRASH METODO RUN DOVE FACCIAMO LA REPAINT");
 			}
 		}
 
 	}
 
-	public void startGame()
-	{
+	public void startGame() {
 		ThreadRepaint threadRepaint = new ThreadRepaint();
 		gameDLV.assegnazionePedine();
 		threadRepaint.start();
 	}
 
-	public PannelloDiGioco(FinestraRisiko switcher)
-	{
+	public PannelloDiGioco(FinestraRisiko switcher) {
 
 		super();
 		this.switcher = switcher;
 		setBackground(Color.WHITE);
 		setVisible(true);
 		this.setSize(FinestraRisiko.WIDTH, FinestraRisiko.HEIGHT);
-		this.addMouseListener(new MouseAdapter()
-		{
+		this.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e)
-			{
+			public void mouseClicked(MouseEvent e) {
 				// System.out.println("(" + e.getX() + ";" + e.getY() + ")");
-				if (e.getX() >= 97 && e.getX() <= 143 && e.getY() >= 91 && e.getY() <= 109)
-				{
+				if (e.getX() >= 97 && e.getX() <= 143 && e.getY() >= 91 && e.getY() <= 109) {
 					selezioneTerritorio(1);
-				} else if (e.getX() >= 171 && e.getX() <= 213 && e.getY() >= 107 && e.getY() <= 146)
-				{
+				} else if (e.getX() >= 171 && e.getX() <= 213 && e.getY() >= 107 && e.getY() <= 146) {
 					selezioneTerritorio(2);
-				} else if (e.getX() >= 436 && e.getX() <= 510 && e.getY() >= 53 && e.getY() <= 75)
-				{
+				} else if (e.getX() >= 436 && e.getX() <= 510 && e.getY() >= 53 && e.getY() <= 75) {
 					selezioneTerritorio(3);
-				} else if (e.getX() >= 135 && e.getX() <= 183 && e.getY() >= 176 && e.getY() <= 193)
-				{
+				} else if (e.getX() >= 135 && e.getX() <= 183 && e.getY() >= 176 && e.getY() <= 193) {
 					selezioneTerritorio(4);
-				} else if (e.getX() >= 233 && e.getX() <= 282 && e.getY() >= 220 && e.getY() <= 238)
-				{
+				} else if (e.getX() >= 233 && e.getX() <= 282 && e.getY() >= 220 && e.getY() <= 238) {
 					selezioneTerritorio(5);
-				} else if (e.getX() >= 325 && e.getX() <= 368 && e.getY() >= 235 && e.getY() <= 247)
-				{
+				} else if (e.getX() >= 325 && e.getX() <= 368 && e.getY() >= 235 && e.getY() <= 247) {
 					selezioneTerritorio(6);
-				} else if (e.getX() >= 76 && e.getX() <= 146 && e.getY() >= 235 && e.getY() <= 262)
-				{
+				} else if (e.getX() >= 76 && e.getX() <= 146 && e.getY() >= 235 && e.getY() <= 262) {
 					selezioneTerritorio(7);
-				} else if (e.getX() >= 158 && e.getX() <= 213 && e.getY() >= 291 && e.getY() <= 311)
-				{
+				} else if (e.getX() >= 158 && e.getX() <= 213 && e.getY() >= 291 && e.getY() <= 311) {
 					selezioneTerritorio(8);
-				} else if (e.getX() >= 74 && e.getX() <= 124 && e.getY() >= 295 && e.getY() <= 319)
-				{
+				} else if (e.getX() >= 74 && e.getX() <= 124 && e.getY() >= 295 && e.getY() <= 319) {
 					selezioneTerritorio(9);
-				} else if (e.getX() >= 138 && e.getX() <= 201 && e.getY() >= 396 && e.getY() <= 414)
-				{
+				} else if (e.getX() >= 138 && e.getX() <= 201 && e.getY() >= 396 && e.getY() <= 414) {
 					selezioneTerritorio(10);
-				} else if (e.getX() >= 225 && e.getX() <= 279 && e.getY() >= 470 && e.getY() <= 490)
-				{
+				} else if (e.getX() >= 225 && e.getX() <= 279 && e.getY() >= 470 && e.getY() <= 490) {
 					selezioneTerritorio(11);
-				} else if (e.getX() >= 141 && e.getX() <= 178 && e.getY() >= 507 && e.getY() <= 524)
-				{
+				} else if (e.getX() >= 141 && e.getX() <= 178 && e.getY() >= 507 && e.getY() <= 524) {
 					selezioneTerritorio(12);
-				} else if (e.getX() >= 122 && e.getX() <= 183 && e.getY() >= 582 && e.getY() <= 605)
-				{
+				} else if (e.getX() >= 122 && e.getX() <= 183 && e.getY() >= 582 && e.getY() <= 605) {
 					selezioneTerritorio(13);
-				} else if (e.getX() >= 527 && e.getX() <= 577 && e.getY() >= 122 && e.getY() <= 144)
-				{
+				} else if (e.getX() >= 527 && e.getX() <= 577 && e.getY() >= 122 && e.getY() <= 144) {
 					selezioneTerritorio(14);
-				} else if (e.getX() >= 521 && e.getX() <= 541 && e.getY() >= 193 && e.getY() <= 264)
-				{
+				} else if (e.getX() >= 521 && e.getX() <= 541 && e.getY() >= 193 && e.getY() <= 264) {
 					selezioneTerritorio(15);
-				} else if (e.getX() >= 592 && e.getX() <= 636 && e.getY() >= 165 && e.getY() <= 198)
-				{
+				} else if (e.getX() >= 592 && e.getX() <= 636 && e.getY() >= 165 && e.getY() <= 198) {
 					selezioneTerritorio(16);
-				} else if (e.getX() >= 428 && e.getX() <= 495 && e.getY() >= 319 && e.getY() <= 342)
-				{
+				} else if (e.getX() >= 428 && e.getX() <= 495 && e.getY() >= 319 && e.getY() <= 342) {
 					selezioneTerritorio(17);
-				} else if (e.getX() >= 577 && e.getX() <= 659 && e.getY() >= 255 && e.getY() <= 277)
-				{
+				} else if (e.getX() >= 577 && e.getX() <= 659 && e.getY() >= 255 && e.getY() <= 277) {
 					selezioneTerritorio(18);
-				} else if (e.getX() >= 690 && e.getX() <= 742 && e.getY() >= 244 && e.getY() <= 264)
-				{
+				} else if (e.getX() >= 690 && e.getX() <= 742 && e.getY() >= 244 && e.getY() <= 264) {
 					selezioneTerritorio(19);
-				} else if (e.getX() >= 564 && e.getX() <= 641 && e.getY() >= 303 && e.getY() <= 328)
-				{
+				} else if (e.getX() >= 564 && e.getX() <= 641 && e.getY() >= 303 && e.getY() <= 328) {
 					selezioneTerritorio(20);
-				} else if (e.getX() >= 473 && e.getX() <= 537 && e.getY() >= 431 && e.getY() <= 458)
-				{
+				} else if (e.getX() >= 473 && e.getX() <= 537 && e.getY() >= 431 && e.getY() <= 458) {
 					selezioneTerritorio(21);
-				} else if (e.getX() >= 634 && e.getX() <= 686 && e.getY() >= 434 && e.getY() <= 451)
-				{
+				} else if (e.getX() >= 634 && e.getX() <= 686 && e.getY() >= 434 && e.getY() <= 451) {
 					selezioneTerritorio(22);
-				} else if (e.getX() >= 593 && e.getX() <= 633 && e.getY() >= 536 && e.getY() <= 553)
-				{
+				} else if (e.getX() >= 593 && e.getX() <= 633 && e.getY() >= 536 && e.getY() <= 553) {
 					selezioneTerritorio(23);
-				} else if (e.getX() >= 675 && e.getX() <= 735 && e.getY() >= 498 && e.getY() <= 525)
-				{
+				} else if (e.getX() >= 675 && e.getX() <= 735 && e.getY() >= 498 && e.getY() <= 525) {
 					selezioneTerritorio(24);
-				} else if (e.getX() >= 602 && e.getX() <= 687 && e.getY() >= 604 && e.getY() <= 622)
-				{
+				} else if (e.getX() >= 602 && e.getX() <= 687 && e.getY() >= 604 && e.getY() <= 622) {
 					selezioneTerritorio(25);
-				} else if (e.getX() >= 740 && e.getX() <= 754 && e.getY() >= 593 && e.getY() <= 650)
-				{
+				} else if (e.getX() >= 740 && e.getX() <= 754 && e.getY() >= 593 && e.getY() <= 650) {
 					selezioneTerritorio(26);
-				} else if (e.getX() >= 783 && e.getX() <= 819 && e.getY() >= 199 && e.getY() <= 213)
-				{
+				} else if (e.getX() >= 783 && e.getX() <= 819 && e.getY() >= 199 && e.getY() <= 213) {
 					selezioneTerritorio(27);
-				} else if (e.getX() >= 841 && e.getX() <= 885 && e.getY() >= 174 && e.getY() <= 190)
-				{
+				} else if (e.getX() >= 841 && e.getX() <= 885 && e.getY() >= 174 && e.getY() <= 190) {
 					selezioneTerritorio(28);
-				} else if (e.getX() >= 915 && e.getX() <= 963 && e.getY() >= 87 && e.getY() <= 107)
-				{
+				} else if (e.getX() >= 915 && e.getX() <= 963 && e.getY() >= 87 && e.getY() <= 107) {
 					selezioneTerritorio(29);
-				} else if (e.getX() >= 982 && e.getX() <= 1047 && e.getY() >= 84 && e.getY() <= 99)
-				{
+				} else if (e.getX() >= 982 && e.getX() <= 1047 && e.getY() >= 84 && e.getY() <= 99) {
 					selezioneTerritorio(30);
-				} else if (e.getX() >= 932 && e.getX() <= 962 && e.getY() >= 170 && e.getY() <= 186)
-				{
+				} else if (e.getX() >= 932 && e.getX() <= 962 && e.getY() >= 170 && e.getY() <= 186) {
 					selezioneTerritorio(31);
-				} else if (e.getX() >= 1129 && e.getX() <= 1172 && e.getY() >= 135 && e.getY() <= 179)
-				{
+				} else if (e.getX() >= 1129 && e.getX() <= 1172 && e.getY() >= 135 && e.getY() <= 179) {
 					selezioneTerritorio(32);
-				} else if (e.getX() >= 799 && e.getX() <= 872 && e.getY() >= 273 && e.getY() <= 288)
-				{
+				} else if (e.getX() >= 799 && e.getX() <= 872 && e.getY() >= 273 && e.getY() <= 288) {
 					selezioneTerritorio(33);
-				} else if (e.getX() >= 975 && e.getX() <= 1030 && e.getY() >= 214 && e.getY() <= 230)
-				{
+				} else if (e.getX() >= 975 && e.getX() <= 1030 && e.getY() >= 214 && e.getY() <= 230) {
 					selezioneTerritorio(34);
-				} else if (e.getX() >= 767 && e.getX() <= 820 && e.getY() >= 394 && e.getY() <= 425)
-				{
+				} else if (e.getX() >= 767 && e.getX() <= 820 && e.getY() >= 394 && e.getY() <= 425) {
 					selezioneTerritorio(35);
-				} else if (e.getX() >= 989 && e.getX() <= 1039 && e.getY() >= 284 && e.getY() <= 316)
-				{
+				} else if (e.getX() >= 989 && e.getX() <= 1039 && e.getY() >= 284 && e.getY() <= 316) {
 					selezioneTerritorio(36);
-				} else if (e.getX() >= 916 && e.getX() <= 959 && e.getY() >= 389 && e.getY() <= 417)
-				{
+				} else if (e.getX() >= 916 && e.getX() <= 959 && e.getY() >= 389 && e.getY() <= 417) {
 					selezioneTerritorio(37);
-				} else if (e.getX() >= 1030 && e.getX() <= 1072 && e.getY() >= 365 && e.getY() <= 396)
-				{
+				} else if (e.getX() >= 1030 && e.getX() <= 1072 && e.getY() >= 365 && e.getY() <= 396) {
 					selezioneTerritorio(38);
-				} else if (e.getX() >= 1196 && e.getX() <= 1239 && e.getY() >= 494 && e.getY() <= 527)
-				{
+				} else if (e.getX() >= 1196 && e.getX() <= 1239 && e.getY() >= 494 && e.getY() <= 527) {
 					selezioneTerritorio(39);
-				} else if (e.getX() >= 1101 && e.getX() <= 1145 && e.getY() >= 436 && e.getY() <= 495)
-				{
+				} else if (e.getX() >= 1101 && e.getX() <= 1145 && e.getY() >= 436 && e.getY() <= 495) {
 					selezioneTerritorio(40);
-				} else if (e.getX() >= 1056 && e.getX() <= 1128 && e.getY() >= 587 && e.getY() <= 618)
-				{
+				} else if (e.getX() >= 1056 && e.getX() <= 1128 && e.getY() >= 587 && e.getY() <= 618) {
 					selezioneTerritorio(41);
-				} else if (e.getX() >= 1151 && e.getX() <= 1213 && e.getY() >= 621 && e.getY() <= 649)
-				{
+				} else if (e.getX() >= 1151 && e.getX() <= 1213 && e.getY() >= 621 && e.getY() <= 649) {
 					selezioneTerritorio(42);
-				} else
-				{
+				} else {
 					selezioneTerritorio(0);
 				}
 
@@ -231,15 +175,12 @@ public class PannelloDiGioco extends JPanel
 		});
 	}
 
-	private void selezioneTerritorio(int n)
-	{
+	private void selezioneTerritorio(int n) {
 		territorioSelezionato = n;
 	}
 
-	private Coordinate getCoordinateCarro(int territorio)
-	{
-		switch (territorio)
-		{
+	private Coordinate getCoordinateCarro(int territorio) {
+		switch (territorio) {
 		case 1:
 			return new Coordinate(118, 61);
 		case 2:
@@ -330,24 +271,24 @@ public class PannelloDiGioco extends JPanel
 	}
 
 	@Override
-	protected void paintComponent(Graphics g)
-	{
+	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if (gameDLV.isGameOver())
-		{
+		if (gameDLV.isGameOver()) {
 			g.drawImage(ImageProvider.getMappa().getScaledInstance(FinestraRisiko.WIDTH, FinestraRisiko.HEIGHT,
 					Image.SCALE_SMOOTH), 0, 0, null);
 			g.setColor(Color.WHITE);
 			g.drawString("TESSERINO-ESENTE: Carlo C.O. & Giacomo A.", 10, 20);
+			// g.drawImage(ImageProvider.getRazziDance().getScaledInstance(200,
+			// 200, Image.SCALE_SMOOTH),
+			// FinestraRisiko.WIDTH - 150, 100, null);
+
 			g.setFont(new Font(Font.DIALOG_INPUT, Font.HANGING_BASELINE, 15));
 
-			for (int i = 1; i <= 42; i++)
-			{
+			for (int i = 1; i <= 42; i++) {
 				int x = getCoordinateCarro(i).getX();
 				int y = getCoordinateCarro(i).getY();
 				// COLORI CARRI ARMATI GIOCATORI
-				switch (gameDLV.getMappa().getGiocatore(i))
-				{
+				switch (gameDLV.getMappa().getGiocatore(i)) {
 				case 1:
 					g.drawImage(ImageProvider.getCarroNero().getScaledInstance(50, 25, Image.SCALE_SMOOTH), x, y, null);
 					break;
@@ -373,32 +314,30 @@ public class PannelloDiGioco extends JPanel
 							gameDLV.getMappa().getTerritori()[gameDLV.getTerritorioAttaccante()].getGiocatore()),
 					FinestraRisiko.WIDTH / 2 - 100, FinestraRisiko.HEIGHT / 2 + 20);
 
-		} else
-		{
+		} else {
 			g.drawImage(ImageProvider.getMappa().getScaledInstance(FinestraRisiko.WIDTH, FinestraRisiko.HEIGHT,
 					Image.SCALE_SMOOTH), 0, 0, null);
 			g.setColor(Color.WHITE);
 			g.drawString("TESSERINO-ESENTE: Carlo C.O. & Giacomo A.", 10, 20);
+			// g.drawImage(ImageProvider.getRazziDance().getScaledInstance(200,
+			// 200, Image.SCALE_SMOOTH),
+			// FinestraRisiko.WIDTH - 120, 100, null);
+
 			// GENERAL INFO
-			for (int i = 0, gap = 10; i < 4; i++, gap += 10)
-			{
-				if (i == 0)
-				{
+			for (int i = 0, gap = 10; i < 4; i++, gap += 10) {
+				if (i == 0) {
 					g.drawString("NERO: Player" + i + " num.territori: " + gameDLV.getMappa().getTerritoriTotali()[i],
 							600, gap);
 				}
-				if (i == 1)
-				{
+				if (i == 1) {
 					g.drawString("BLU: Player" + i + " num.territori: " + gameDLV.getMappa().getTerritoriTotali()[i],
 							600, gap);
 				}
-				if (i == 2)
-				{
+				if (i == 2) {
 					g.drawString("ROSSO: Player" + i + " num.territori: " + gameDLV.getMappa().getTerritoriTotali()[i],
 							600, gap);
 				}
-				if (i == 3)
-				{
+				if (i == 3) {
 					g.drawString("VERDE: Player" + i + " num.territori: " + gameDLV.getMappa().getTerritoriTotali()[i],
 							600, gap);
 				}
@@ -406,13 +345,11 @@ public class PannelloDiGioco extends JPanel
 
 			g.setFont(new Font(Font.DIALOG_INPUT, Font.HANGING_BASELINE, 15));
 
-			for (int i = 1; i <= 42; i++)
-			{
+			for (int i = 1; i <= 42; i++) {
 				int x = getCoordinateCarro(i).getX();
 				int y = getCoordinateCarro(i).getY();
 				// COLORI CARRI ARMATI GIOCATORI
-				switch (gameDLV.getMappa().getGiocatore(i))
-				{
+				switch (gameDLV.getMappa().getGiocatore(i)) {
 				case 1:
 					g.drawImage(ImageProvider.getCarroNero().getScaledInstance(50, 25, Image.SCALE_SMOOTH), x, y, null);
 					break;
@@ -430,8 +367,7 @@ public class PannelloDiGioco extends JPanel
 				default:
 				}
 				//
-				if (gameDLV.isProvandoAttacco())
-				{
+				if (gameDLV.isProvandoAttacco()) {
 					g.setColor(Color.YELLOW);
 					// Aumenta spessore linee
 					((Graphics2D) g).setStroke(new BasicStroke(2));
@@ -452,8 +388,7 @@ public class PannelloDiGioco extends JPanel
 							getCoordinateCarro(gameDLV.getTerritorioDifensore()).getX(),
 							getCoordinateCarro(gameDLV.getTerritorioDifensore()).getY());
 				}
-				if (gameDLV.getMappa().isSpostandoFase2())
-				{
+				if (gameDLV.getMappa().isSpostandoFase2()) {
 					g.setColor(Color.GREEN);
 					// Aumenta spessore linee
 					((Graphics2D) g).setStroke(new BasicStroke(2));

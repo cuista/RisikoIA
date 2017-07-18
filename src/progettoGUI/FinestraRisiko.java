@@ -4,8 +4,7 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-public class FinestraRisiko extends JFrame
-{
+public class FinestraRisiko extends JFrame {
 
 	static int WIDTH = 1280;
 	static int HEIGHT = 720;
@@ -14,8 +13,7 @@ public class FinestraRisiko extends JFrame
 
 	PannelloDiGioco gamePanel;
 
-	public FinestraRisiko()
-	{
+	public FinestraRisiko() {
 
 		showMenu();
 		setVisible(true);
@@ -27,8 +25,7 @@ public class FinestraRisiko extends JFrame
 
 	}
 
-	public void showGame()
-	{
+	public void showGame() {
 		gamePanel = new PannelloDiGioco(this);
 
 		getContentPane().removeAll();
@@ -36,20 +33,21 @@ public class FinestraRisiko extends JFrame
 		gamePanel.startGame();
 	}
 
-	public void showMenu()
-	{
+	public void showMenu() {
 		getContentPane().removeAll();
 		getContentPane().add(menuPanel);
 	}
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		final FinestraRisiko mf = new FinestraRisiko();
 	}
 
-	public void close()
-	{
+	public void close() {
 		System.exit(0);
 
+	}
+
+	public void exit() {
+		System.exit(0);
 	}
 }

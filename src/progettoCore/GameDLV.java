@@ -150,7 +150,7 @@ public class GameDLV {
 		Output output = handler.startSync();
 		AnswerSets answerSets = (AnswerSets) output;
 
-		// ?
+		// FIXME answerset 0 (?)
 		System.out.println("answersetFase1 size ----> " + answerSets.getAnswersets().size());
 		System.out.println("answersetFase1: " + answerSets.getAnswersets().get(0));
 		AnswerSet answersetFase1 = answerSets.getAnswersets().get(0);
